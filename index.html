@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="tg">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#101a2b">
+<title>ZENDAY — идоракунии оқилонаи ҳаёт</title>
+<style>
+:root{--bg:#0c1422;--panel:#141f31;--panel2:#1a2940;--gold:#d8b56d;--gold2:#f0d79a;--text:#f4f5f7;--muted:#aab5c5;--line:#2b3a50;--green:#55c59a;--red:#ff7f83}
+*{box-sizing:border-box}body{margin:0;background:linear-gradient(160deg,#0b1320,#111d30 55%,#0b1320);font-family:system-ui,-apple-system,Segoe UI,sans-serif;color:var(--text);min-height:100vh}
+header{padding:22px 18px 14px;position:sticky;top:0;background:#0d1726ed;backdrop-filter:blur(12px);z-index:5;border-bottom:1px solid var(--line)}
+.brand{display:flex;align-items:center;gap:12px}.logo{width:44px;height:44px;border-radius:14px;background:linear-gradient(145deg,var(--gold2),#b68c3c);color:#101827;display:grid;place-items:center;font-weight:900;font-size:20px;box-shadow:0 6px 20px #d8b56d2b}
+h1{font-size:22px;margin:0;letter-spacing:2px} .tag{font-size:12px;color:var(--muted);margin-top:2px}
+.toprow{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:15px}.date{font-size:13px;color:var(--muted)}button,select,input,textarea{font:inherit}button{cursor:pointer;border:1px solid var(--line);background:var(--panel2);color:var(--text);border-radius:12px;padding:10px 12px}button.primary{background:linear-gradient(120deg,var(--gold2),var(--gold));border:0;color:#172033;font-weight:750}button.ghost{background:transparent}button.small{padding:7px 10px;font-size:13px}
+main{max-width:780px;margin:auto;padding:16px 14px 90px}.nav{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-bottom:16px}.nav button{padding:10px 4px;font-size:12px;color:var(--muted)}.nav button.active{color:#151d2b;background:var(--gold);border-color:var(--gold);font-weight:750}
+.view{display:none}.view.active{display:block}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.card{background:linear-gradient(145deg,var(--panel),#111b2b);border:1px solid var(--line);border-radius:18px;padding:15px;margin-bottom:12px;box-shadow:0 10px 28px #00000012}.card h2{font-size:16px;margin:0 0 12px}.label{font-size:12px;color:var(--muted);display:block;margin:8px 0 5px}
+.stat{font-size:23px;font-weight:800;margin-top:8px;overflow-wrap:anywhere}.stat.gold{color:var(--gold2)}.stat.green{color:var(--green)}.stat.red{color:var(--red)}
+input,select,textarea{width:100%;background:#0d1726;color:var(--text);border:1px solid #33445d;border-radius:11px;padding:11px;outline:none}textarea{min-height:74px;resize:vertical}.formrow{display:grid;grid-template-columns:1fr 1fr;gap:8px}.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.item{padding:12px 0;border-bottom:1px solid var(--line)}.item:last-child{border-bottom:0}.itemtop{display:flex;justify-content:space-between;gap:8px;align-items:flex-start}.itemtitle{font-weight:650;overflow-wrap:anywhere}.sub{font-size:12px;color:var(--muted);margin-top:4px}.amount.income{color:var(--green);font-weight:800}.amount.expense{color:var(--red);font-weight:800}.pill{display:inline-block;font-size:11px;padding:4px 8px;border:1px solid var(--line);border-radius:99px;color:var(--muted)}.empty{color:var(--muted);font-size:13px;padding:12px 0}.hint{font-size:12px;color:var(--muted);line-height:1.55}.sectionhead{display:flex;justify-content:space-between;align-items:center;gap:8px;margin:8px 2px 12px}.sectionhead h2{font-size:19px;margin:0}.photo{max-width:100%;max-height:180px;border-radius:12px;margin-top:8px;display:block}.barrow{margin:12px 0}.barlabel{display:flex;justify-content:space-between;font-size:12px;color:var(--muted);gap:8px}.bar{height:8px;background:#26364c;border-radius:20px;overflow:hidden;margin-top:5px}.bar span{height:100%;display:block;background:linear-gradient(90deg,#b68c3c,var(--gold2));border-radius:20px}.footer{text-align:center;color:#7f8ca0;font-size:11px;margin:25px 0}.mic{font-size:18px;min-width:50px}.hidden{display:none!important}
+
+.ai-msg{padding:9px 10px;border-radius:11px;margin:7px 0;white-space:pre-wrap;overflow-wrap:anywhere;font-size:13px;line-height:1.5}
+.ai-msg.user{background:#25344a;margin-left:18px}.ai-msg.bot{background:#16253a;border:1px solid #30415b;margin-right:18px}
+@media(min-width:650px){.grid.stats{grid-template-columns:repeat(4,minmax(0,1fr))}.nav button{font-size:14px}.card{padding:18px}}
+</style>
+</head>
+<body>
+<header>
+ <div class="brand"><div class="logo">Z</div><div><h1>ZENDAY</h1><div class="tag" data-i="tag">Идоракунии оқилонаи ҳаёт</div></div></div>
+ <div class="toprow"><div class="date" id="today"></div><button class="small ghost" id="langBtn">Тоҷикӣ / Русский</button></div>
+</header>
+<main>
+ <div class="nav">
+  <button class="active" data-view="home" data-i="navHome">⌂ Имрӯз</button>
+  <button data-view="tasks" data-i="navTasks">☷ Вазифаҳо</button>
+  <button data-view="finance" data-i="navFinance">◈ Молия</button>
+  <button data-view="notes" data-i="navNotes">▧ Қайдҳо</button>
+ </div>
+ <section class="view active" id="home">
+  <div class="sectionhead"><h2 data-i="overview">Хулосаи имрӯз</h2><span class="pill" id="todayCount">0 вазифа</span></div>
+  <div class="grid stats">
+   <div class="card"><div class="label" data-i="income">Даромад</div><div class="stat green" id="homeIncome">0</div></div>
+   <div class="card"><div class="label" data-i="expense">Хароҷот</div><div class="stat red" id="homeExpense">0</div></div>
+   <div class="card"><div class="label" data-i="balance">Тавозун</div><div class="stat gold" id="homeBalance">0</div></div>
+   <div class="card"><div class="label" data-i="tasksToday">Вазифаҳои имрӯз</div><div class="stat" id="homeTasks">0</div></div>
+  </div>
+  <div class="card"><h2 data-i="quickAdd">Иловаи зуд</h2>
+   <label class="label" data-i="taskTitle">Номи вазифа</label><input id="quickTask" placeholder="Масалан: хариди мавод">
+   <div class="formrow"><div><label class="label" data-i="date">Сана</label><input id="quickDate" type="date"></div><div><label class="label" data-i="time">Вақт</label><input id="quickTime" type="time"></div></div>
+   <div class="actions"><button class="primary" id="quickAddBtn" data-i="addTask">+ Иловаи вазифа</button><button class="mic" id="voiceBtn" title="Voice input">🎙</button></div>
+   <p class="hint" data-i="voiceHint">Тугмаи микрофон аз шинохти овози браузер истифода мебарад; забон аз дастгоҳи шумо вобаста аст.</p>
+  </div>
+  <div class="card"><h2 data-i="todayTasks">Вазифаҳои наздик</h2><div id="homeTaskList"></div></div>
+ </section>
+ <section class="view" id="tasks">
+  <div class="sectionhead"><h2 data-i="planner">Нақша ва вазифаҳо</h2><span class="pill" data-i="local">Дар ҳамин дастгоҳ</span></div>
+  <div class="card">
+   <label class="label" data-i="taskTitle">Номи вазифа</label><input id="taskTitleInput" placeholder="...">
+   <div class="formrow"><div><label class="label" data-i="date">Сана</label><input id="taskDate" type="date"></div><div><label class="label" data-i="time">Вақт</label><input id="taskTime" type="time"></div></div>
+   <label class="label" data-i="details">Тавсиф (ихтиёрӣ)</label><textarea id="taskDetails"></textarea>
+   <div class="actions"><button class="primary" id="saveTask" data-i="saveTask">Захира кардан</button><button id="taskVoice" class="mic">🎙</button></div>
+  </div>
+  <div class="card"><h2 data-i="allTasks">Ҳамаи вазифаҳо</h2><div id="taskList"></div></div>
+ </section>
+ <section class="view" id="finance">
+  <div class="sectionhead"><h2 data-i="moneyManager">Идоракунии молия</h2><span class="pill" data-i="somoni">TJS / сомонӣ</span></div>
+  <div class="grid stats">
+   <div class="card"><div class="label" data-i="income">Даромад</div><div class="stat green" id="finIncome">0</div></div>
+   <div class="card"><div class="label" data-i="expense">Хароҷот</div><div class="stat red" id="finExpense">0</div></div>
+   <div class="card"><div class="label" data-i="balance">Тавозун</div><div class="stat gold" id="finBalance">0</div></div>
+   <div class="card"><div class="label" data-i="weekBalance">Тавозуни ҳафта</div><div class="stat" id="weekBalance">0</div></div>
+  </div>
+  <div class="card"><h2 data-i="addTransaction">Сабти амалиёти молиявӣ</h2>
+   <div class="formrow"><div><label class="label" data-i="type">Навъ</label><select id="txType"><option value="expense" data-i="expenseOpt">Хароҷот</option><option value="income" data-i="incomeOpt">Даромад</option></select></div><div><label class="label" data-i="amount">Маблағ (сомонӣ)</label><input id="txAmount" type="number" min="0" step="0.01" placeholder="0.00"></div></div>
+   <label class="label" data-i="category">Категория</label><select id="txCategory"><option>Хӯрок</option><option>Нақлиёт</option><option>Хона</option><option>Саломатӣ</option><option>Оила</option><option>Кор</option><option>Маош</option><option>Фурӯш</option><option>Дигар</option></select>
+   <label class="label" data-i="description">Шарҳ</label><input id="txDesc" placeholder="...">
+   <div class="formrow"><div><label class="label" data-i="date">Сана</label><input id="txDate" type="date"></div><div><label class="label" data-i="receipt">Акси чек (ихтиёрӣ)</label><input id="txPhoto" type="file" accept="image/*"></div></div>
+   <div class="actions"><button class="primary" id="saveTx" data-i="saveTx">Захира кардани амалиёт</button></div>
+   <p class="hint" data-i="photoHint">Аксҳои чек дар ин дастгоҳ нигоҳ дошта мешаванд; барои аксҳои калон мумкин аст фазои браузер маҳдуд шавад.</p>
+  </div>
+  <div class="card"><div class="sectionhead"><h2 data-i="weeklyReport">Ҳисоботи ҳафтаина</h2><button class="small" id="exportCsv" data-i="exportCsv">CSV</button></div><div id="weeklySummary"></div><div id="categoryBars"></div></div>
+  <div class="card"><h2 data-i="transactions">Амалиётҳои охирин</h2><div id="txList"></div><div class="actions"><button id="exportJson" data-i="backup">Нусхаи эҳтиётӣ</button><label for="importJson" class="pill" style="padding:10px;cursor:pointer" data-i="restore">Барқарор кардан</label><input class="hidden" id="importJson" type="file" accept="application/json"></div></div>
+ </section>
+ <section class="view" id="notes">
+  <div class="sectionhead"><h2 data-i="notesTitle">Қайдҳо ва аксҳо</h2><span class="pill" data-i="private">Маҳаллӣ</span></div>
+  <div class="card"><label class="label" data-i="noteTitle">Сарлавҳа</label><input id="noteTitle" placeholder="..."><label class="label" data-i="noteText">Матн / қайди овозӣ</label><textarea id="noteText"></textarea><label class="label" data-i="attachPhoto">Иловаи акс</label><input id="notePhoto" type="file" accept="image/*"><div class="actions"><button id="noteVoice">🎙 <span data-i="recordText">Бо овоз навис</span></button><button class="primary" id="saveNote" data-i="saveNote">Захира кардани қайд</button></div></div>
+  <div class="card"><h2 data-i="savedNotes">Қайдҳои захирашуда</h2><div id="noteList"></div></div>
+
+  <div class="card" id="aiCard">
+   <h2>🤖 ZENDAY AI</h2>
+   <p class="hint" id="aiIntro">Ёвари зеҳни сунъӣ барои нақша, молия ва ғояҳо. Барои ҷавобҳои AI бояд API-и худро пайваст кунӣ; калиди API-ро дар ин веб-саҳифаи оммавӣ нагузор.</p>
+   <label class="label" for="aiMode" id="aiModeLabel">Усули кор</label>
+   <select id="aiMode"><option value="local">Ёвари маҳаллӣ (бе API)</option><option value="api">AI тавассути сервери шахсӣ</option></select>
+   <div id="apiFields" class="hidden">
+    <label class="label" for="aiEndpoint">Суроғаи сервери AI (endpoint)</label>
+    <input id="aiEndpoint" type="url" placeholder="https://your-server.example/api/chat">
+    <p class="hint">Сервер бояд дархости POST-и JSON-ро бо { messages: [...] } қабул кунад ва ҷавоби JSON бо { reply: "..." } баргардонад. Калиди API бояд танҳо дар сервер нигоҳ дошта шавад.</p>
+   </div>
+   <div id="aiChat" style="background:#0d1726;border:1px solid var(--line);border-radius:12px;padding:10px;max-height:260px;overflow:auto;margin:10px 0">
+    <div class="hint" id="aiWelcome">Салом! Метавонам маълумоти дар ҳамин барнома сабтшударо ҷамъбаст кунам ва барои нақша маслиҳат диҳам.</div>
+   </div>
+   <label class="label" for="aiInput" id="aiInputLabel">Саволи ту</label>
+   <textarea id="aiInput" placeholder="Масалан: хароҷоти ин ҳафтаамро таҳлил кун..."></textarea>
+   <div class="actions"><button class="primary" id="aiSend">Пурсидан</button><button id="aiClear">Тоза кардани чат</button></div>
+   <p class="hint" id="aiDisclaimer">Ҳолати маҳаллӣ аз маълумоти дохили барнома истифода мебарад, аммо модели забонии пуриқтидор нест. Барои AI-и онлайн endpoint-и сервер лозим аст.</p>
+  </div>
+
+  <div class="card"><h2 data-i="smartIdeas">Идеяҳои муфид</h2><div class="hint" data-i="ideas">• Ҳар хароҷотро фавран сабт кун. • Барои хароҷоти калон акс ё чек илова кун. • Ҳар якшанбе ҳисоботи ҳафтаро бин. • Барои вазифаҳои муҳим сана ва вақт гузор.</div></div>
+ </section>
+ <div class="footer">ZENDAY · <span data-i="footer">Версияи аввалия · маълумот дар браузери ҳамин дастгоҳ нигоҳ дошта мешавад</span></div>
+</main>
+<script>
+const $=id=>document.getElementById(id);
+const today=new Date(); const iso=d=>{let x=new Date(d);x.setMinutes(x.getMinutes()-x.getTimezoneOffset());return x.toISOString().slice(0,10)};
+const todayISO=iso(today);
+$('today').textContent=today.toLocaleDateString(undefined,{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+['quickDate','taskDate','txDate'].forEach(id=>$(id).value=todayISO);
+let data={tasks:[],tx:[],notes:[]};
+try{data={...data,...JSON.parse(localStorage.getItem('zenday_data')||'{}')}}catch(e){}
+let lang='tg';
+const T={
+tg:{tag:'Идоракунии оқилонаи ҳаёт',navHome:'⌂ Имрӯз',navTasks:'☷ Вазифаҳо',navFinance:'◈ Молия',navNotes:'▧ Қайдҳо',overview:'Хулосаи имрӯз',income:'Даромад',expense:'Хароҷот',balance:'Тавозун',tasksToday:'Вазифаҳои имрӯз',quickAdd:'Иловаи зуд',taskTitle:'Номи вазифа',date:'Сана',time:'Вақт',addTask:'+ Иловаи вазифа',voiceHint:'Тугмаи микрофон аз шинохти овози браузер истифода мебарад; забон аз дастгоҳи шумо вобаста аст.',todayTasks:'Вазифаҳои наздик',planner:'Нақша ва вазифаҳо',local:'Дар ҳамин дастгоҳ',details:'Тавсиф (ихтиёрӣ)',saveTask:'Захира кардан',allTasks:'Ҳамаи вазифаҳо',moneyManager:'Идоракунии молия',somoni:'TJS / сомонӣ',weekBalance:'Тавозуни ҳафта',addTransaction:'Сабти амалиёти молиявӣ',type:'Навъ',expenseOpt:'Хароҷот',incomeOpt:'Даромад',amount:'Маблағ (сомонӣ)',category:'Категория',description:'Шарҳ',receipt:'Акси чек (ихтиёрӣ)',saveTx:'Захира кардани амалиёт',photoHint:'Аксҳои чек дар ин дастгоҳ нигоҳ дошта мешаванд; барои аксҳои калон мумкин аст фазои браузер маҳдуд шавад.',weeklyReport:'Ҳисоботи ҳафтаина',exportCsv:'CSV',transactions:'Амалиётҳои охирин',backup:'Нусхаи эҳтиётӣ',restore:'Барқарор кардан',notesTitle:'Қайдҳо ва аксҳо',private:'Маҳаллӣ',noteTitle:'Сарлавҳа',noteText:'Матн / қайди овозӣ',attachPhoto:'Иловаи акс',recordText:'Бо овоз навис',saveNote:'Захира кардани қайд',savedNotes:'Қайдҳои захирашуда',smartIdeas:'Идеяҳои муфид',ideas:'• Ҳар хароҷотро фавран сабт кун. • Барои хароҷоти калон акс ё чек илова кун. • Ҳар якшанбе ҳисоботи ҳафтаро бин. • Барои вазифаҳои муҳим сана ва вақт гузор.',footer:'Версияи аввалия · маълумот дар браузери ҳамин дастгоҳ нигоҳ дошта мешавад',noTasks:'Ҳоло вазифа нест.',noTx:'Ҳоло амалиёти молиявӣ нест.',noNotes:'Ҳоло қайд нест.',done:'Иҷро шуд',undo:'Барқарор',delete:'Нест кардан',weekIn:'Даромади ҳафта',weekOut:'Хароҷоти ҳафта',net:'Фарқ',categoryExpenses:'Хароҷот аз рӯйи категория',taskSaved:'Вазифа захира шуд.',txSaved:'Амалиёт захира шуд.',noteSaved:'Қайд захира шуд.',fillAmount:'Маблағ ва шарҳро дуруст ворид кун.',voiceUnavailable:'Шинохти овоз дар ин браузер дастгирӣ намешавад.',voiceError:'Микрофон/шинохти овоз фаъол нашуд.',confirmRestore:'Маълумоти ҷорӣ бо нусха иваз шавад?',todayCount:'вазифа'},
+ru:{tag:'Умное управление жизнью',navHome:'⌂ Сегодня',navTasks:'☷ Задачи',navFinance:'◈ Финансы',navNotes:'▧ Заметки',overview:'Обзор на сегодня',income:'Доход',expense:'Расход',balance:'Баланс',tasksToday:'Задачи на сегодня',quickAdd:'Быстрое добавление',taskTitle:'Название задачи',date:'Дата',time:'Время',addTask:'+ Добавить задачу',voiceHint:'Кнопка микрофона использует распознавание речи браузера; доступность языков зависит от устройства.',todayTasks:'Ближайшие задачи',planner:'План и задачи',local:'На этом устройстве',details:'Описание (необязательно)',saveTask:'Сохранить',allTasks:'Все задачи',moneyManager:'Управление финансами',somoni:'TJS / сомони',weekBalance:'Баланс недели',addTransaction:'Добавить финансовую операцию',type:'Тип',expenseOpt:'Расход',incomeOpt:'Доход',amount:'Сумма (сомони)',category:'Категория',description:'Комментарий',receipt:'Фото чека (необязательно)',saveTx:'Сохранить операцию',photoHint:'Фото чеков хранятся на этом устройстве; для больших изображений место в браузере может быть ограничено.',weeklyReport:'Отчёт за неделю',exportCsv:'CSV',transactions:'Последние операции',backup:'Резервная копия',restore:'Восстановить',notesTitle:'Заметки и фото',private:'Локально',noteTitle:'Заголовок',noteText:'Текст / голосовая заметка',attachPhoto:'Добавить фото',recordText:'Продиктовать голосом',saveNote:'Сохранить заметку',savedNotes:'Сохранённые заметки',smartIdeas:'Полезные идеи',ideas:'• Записывайте расходы сразу. • Добавляйте фото чеков к крупным покупкам. • Проверяйте отчёт каждое воскресенье. • Указывайте дату и время важных задач.',footer:'Первая версия · данные хранятся в браузере этого устройства',noTasks:'Пока нет задач.',noTx:'Пока нет финансовых операций.',noNotes:'Пока нет заметок.',done:'Выполнено',undo:'Вернуть',delete:'Удалить',weekIn:'Доход за неделю',weekOut:'Расход за неделю',net:'Разница',categoryExpenses:'Расходы по категориям',taskSaved:'Задача сохранена.',txSaved:'Операция сохранена.',noteSaved:'Заметка сохранена.',fillAmount:'Введите корректную сумму и комментарий.',voiceUnavailable:'Распознавание речи не поддерживается этим браузером.',voiceError:'Не удалось включить микрофон/распознавание речи.',confirmRestore:'Заменить текущие данные резервной копией?',todayCount:'задач'}
+};
+function tr(k){return T[lang][k]||T.tg[k]||k}
+function persist(){try{localStorage.setItem('zenday_data',JSON.stringify(data))}catch(e){alert(lang==='tg'?'Фазои нигоҳдорӣ пур шуд. Акси калонро хориҷ карда, нусха гир.':'Хранилище заполнено. Удалите большое фото и сделайте резервную копию.');}}
+function money(n){return (Number(n)||0).toLocaleString(lang==='tg'?'tg-TJ':'ru-RU',{maximumFractionDigits:2})+' сом.'}
+function safe(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function changeLang(){lang=lang==='tg'?'ru':'tg';document.documentElement.lang=lang;document.querySelectorAll('[data-i]').forEach(el=>{const k=el.dataset.i;if(T[lang][k])el.textContent=T[lang][k]});render()}
+$('langBtn').onclick=changeLang;
+document.querySelectorAll('[data-view]').forEach(b=>b.onclick=()=>{document.querySelectorAll('[data-view]').forEach(x=>x.classList.toggle('active',x===b));document.querySelectorAll('.view').forEach(v=>v.classList.toggle('active',v.id===b.dataset.view));render()});
+function addTask(title,date,time,details){if(!title.trim())return;data.tasks.push({id:Date.now()+Math.random(),title:title.trim(),date:date||todayISO,time:time||'',details:details||'',done:false,created:Date.now()});persist();render();$('quickTask').value='';$('taskTitleInput').value='';$('taskDetails').value='';alert(tr('taskSaved'))}
+$('quickAddBtn').onclick=()=>addTask($('quickTask').value,$('quickDate').value,$('quickTime').value,'');
+$('saveTask').onclick=()=>addTask($('taskTitleInput').value,$('taskDate').value,$('taskTime').value,$('taskDetails').value);
+function taskHTML(t){return `<div class="item"><div class="itemtop"><div><div class="itemtitle" style="${t.done?'text-decoration:line-through;opacity:.6':''}">${safe(t.title)}</div><div class="sub">${safe(t.date||'')} ${safe(t.time||'')} ${t.details?'<br>'+safe(t.details):''}</div></div><div class="actions" style="margin:0"><button class="small" onclick="toggleTask('${t.id}')">${t.done?'↶ '+tr('undo'):'✓ '+tr('done')}</button><button class="small" onclick="delTask('${t.id}')">×</button></div></div></div>`}
+window.toggleTask=id=>{let t=data.tasks.find(x=>String(x.id)===String(id));if(t)t.done=!t.done;persist();render()};
+window.delTask=id=>{data.tasks=data.tasks.filter(x=>String(x.id)!==String(id));persist();render()};
+function weekStart(d){let x=new Date(d+'T12:00:00');let day=(x.getDay()+6)%7;x.setDate(x.getDate()-day);return iso(x)}
+function currentWeek(tx){let start=weekStart(todayISO);return tx.filter(t=>t.date>=start&&t.date<=todayISO)}
+async function fileData(file){if(!file)return '';return await new Promise((res,rej)=>{let r=new FileReader();r.onload=()=>res(r.result);r.onerror=rej;r.readAsDataURL(file)})}
+$('saveTx').onclick=async()=>{let amount=Number($('txAmount').value);if(!Number.isFinite(amount)||amount<=0){alert(tr('fillAmount'));return}let photo='';try{photo=await fileData($('txPhoto').files[0])}catch(e){}data.tx.push({id:Date.now()+Math.random(),type:$('txType').value,amount,category:$('txCategory').value,desc:$('txDesc').value,date:$('txDate').value||todayISO,photo});persist();$('txAmount').value='';$('txDesc').value='';$('txPhoto').value='';render();alert(tr('txSaved'))};
+window.delTx=id=>{data.tx=data.tx.filter(x=>String(x.id)!==String(id));persist();render()};
+function txHTML(t){return `<div class="item"><div class="itemtop"><div><div class="itemtitle">${safe(t.desc||t.category)} <span class="pill">${safe(t.category)}</span></div><div class="sub">${safe(t.date)}${t.photo?'<br><img class="photo" src="'+t.photo+'" alt="receipt">':''}</div></div><div style="text-align:right"><div class="amount ${t.type}">${t.type==='income'?'+':'−'}${money(t.amount)}</div><button class="small" onclick="delTx('${t.id}')">× ${tr('delete')}</button></div></div></div>`}
+$('saveNote').onclick=async()=>{let title=$('noteTitle').value.trim(),text=$('noteText').value.trim();let photo='';try{photo=await fileData($('notePhoto').files[0])}catch(e){}if(!title&&!text&&!photo)return;data.notes.unshift({id:Date.now()+Math.random(),title,text,photo,date:todayISO});persist();$('noteTitle').value='';$('noteText').value='';$('notePhoto').value='';render();alert(tr('noteSaved'))};
+window.delNote=id=>{data.notes=data.notes.filter(x=>String(x.id)!==String(id));persist();render()};
+$('exportJson').onclick=()=>download('zenday-backup.json',JSON.stringify(data,null,2),'application/json');
+$('importJson').onchange=async e=>{let f=e.target.files[0];if(!f)return;try{let obj=JSON.parse(await f.text());if(!obj.tasks||!obj.tx||!obj.notes)throw 0;if(confirm(tr('confirmRestore'))){data=obj;persist();render()}}catch(err){alert('JSON error')}e.target.value=''};
+function download(name,content,type){let a=document.createElement('a');a.href=URL.createObjectURL(new Blob([content],{type}));a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)}
+$('exportCsv').onclick=()=>{let rows=[['date','type','amount_TJS','category','description'],...data.tx.map(t=>[t.date,t.type,t.amount,t.category,t.desc||''])];download('zenday-finance.csv','\ufeff'+rows.map(r=>r.map(v=>'"'+String(v).replace(/"/g,'""')+'"').join(',')).join('\r\n'),'text/csv;charset=utf-8')};
+function render(){
+ const tx=data.tx,ins=tx.filter(t=>t.type==='income').reduce((a,t)=>a+Number(t.amount),0),outs=tx.filter(t=>t.type==='expense').reduce((a,t)=>a+Number(t.amount),0),wk=currentWeek(tx),wi=wk.filter(t=>t.type==='income').reduce((a,t)=>a+Number(t.amount),0),wo=wk.filter(t=>t.type==='expense').reduce((a,t)=>a+Number(t.amount),0);
+ [['homeIncome',ins],['finIncome',ins],['homeExpense',outs],['finExpense',outs]].forEach(([id,v])=>$(id).textContent=money(v));
+ $('homeBalance').textContent=money(ins-outs);$('finBalance').textContent=money(ins-outs);$('weekBalance').textContent=money(wi-wo);
+ let todayTasks=data.tasks.filter(t=>t.date===todayISO&&!t.done);$('homeTasks').textContent=todayTasks.length;$('todayCount').textContent=todayTasks.length+' '+tr('todayCount');
+ let tasks=[...data.tasks].sort((a,b)=>(a.done-b.done)||((a.date||'').localeCompare(b.date||''))||((a.time||'').localeCompare(b.time||'')));
+ $('taskList').innerHTML=tasks.length?tasks.map(taskHTML).join(''):`<div class="empty">${tr('noTasks')}</div>`;
+ let next=tasks.filter(t=>!t.done).slice(0,5);$('homeTaskList').innerHTML=next.length?next.map(taskHTML).join(''):`<div class="empty">${tr('noTasks')}</div>`;
+ $('txList').innerHTML=tx.length?[...tx].sort((a,b)=>(b.date||'').localeCompare(a.date||'')).slice(0,12).map(txHTML).join(''):`<div class="empty">${tr('noTx')}</div>`;
+ $('weeklySummary').innerHTML=`<div class="grid"><div><div class="label">${tr('weekIn')}</div><div class="stat green">${money(wi)}</div></div><div><div class="label">${tr('weekOut')}</div><div class="stat red">${money(wo)}</div></div></div><p class="hint">${tr('net')}: <b style="color:var(--gold2)">${money(wi-wo)}</b> · ${weekStart(todayISO)} — ${todayISO}</p>`;
+ let cats={};wk.filter(t=>t.type==='expense').forEach(t=>cats[t.category]=(cats[t.category]||0)+Number(t.amount));let max=Math.max(1,...Object.values(cats));
+ $('categoryBars').innerHTML=Object.keys(cats).length?`<h3 style="font-size:14px">${tr('categoryExpenses')}</h3>`+Object.entries(cats).sort((a,b)=>b[1]-a[1]).map(([k,v])=>`<div class="barrow"><div class="barlabel"><span>${safe(k)}</span><span>${money(v)}</span></div><div class="bar"><span style="width:${Math.max(2,v/max*100)}%"></span></div></div>`).join(''):'<div class="empty">—</div>';
+ $('noteList').innerHTML=data.notes.length?data.notes.map(n=>`<div class="item"><div class="itemtop"><div><div class="itemtitle">${safe(n.title||'Заметка')}</div><div class="sub">${safe(n.date)}<br>${safe(n.text||'')}</div>${n.photo?`<img class="photo" src="${n.photo}" alt="photo">`:''}</div><button class="small" onclick="delNote('${n.id}')">×</button></div></div>`).join(''):`<div class="empty">${tr('noNotes')}</div>`;
+}
+function voice(target){const SR=window.SpeechRecognition||window.webkitSpeechRecognition;if(!SR){alert(tr('voiceUnavailable'));return}let r=new SR();r.lang=lang==='tg'?'tg-TJ':'ru-RU';r.interimResults=false;r.maxAlternatives=1;r.onresult=e=>{target.value=(target.value?target.value+' ':'')+e.results[0][0].transcript};r.onerror=()=>alert(tr('voiceError'));try{r.start()}catch(e){alert(tr('voiceError'))}}
+$('voiceBtn').onclick=()=>voice($('quickTask'));$('taskVoice').onclick=()=>voice($('taskTitleInput'));$('noteVoice').onclick=()=>voice($('noteText'));
+
+const aiChatHistory=[];
+function aiAppend(role,text){const el=document.createElement('div');el.className='ai-msg '+(role==='user'?'user':'bot');el.textContent=text;$('aiChat').appendChild(el);$('aiChat').scrollTop=$('aiChat').scrollHeight}
+$('aiMode').addEventListener('change',()=>{$('apiFields').classList.toggle('hidden',$('aiMode').value!=='api')});
+$('aiClear').addEventListener('click',()=>{$('aiChat').innerHTML='<div class="hint">Чат тоза шуд.</div>';aiChatHistory.length=0});
+function aiLocalReply(q){
+ const s=q.toLowerCase();
+ const tx=data.tx||[],tasks=data.tasks||[];
+ const ins=tx.filter(t=>t.type==='income').reduce((a,t)=>a+Number(t.amount||0),0);
+ const outs=tx.filter(t=>t.type==='expense').reduce((a,t)=>a+Number(t.amount||0),0);
+ const start=weekStart(todayISO);
+ const wk=tx.filter(t=>t.date>=start&&t.date<=todayISO);
+ const wi=wk.filter(t=>t.type==='income').reduce((a,t)=>a+Number(t.amount||0),0);
+ const wo=wk.filter(t=>t.type==='expense').reduce((a,t)=>a+Number(t.amount||0),0);
+ const open=tasks.filter(t=>!t.done);
+ const cats={};wk.filter(t=>t.type==='expense').forEach(t=>cats[t.category]=(cats[t.category]||0)+Number(t.amount||0));
+ const top=Object.entries(cats).sort((a,b)=>b[1]-a[1])[0];
+ if(/ҳафта|недел|week|хароҷ|расход|молия|финанс|даромад|доход|баланс|сумм|сколько/.test(s)){
+  return (lang==='tg'?'Ҳисоботи молиявӣ:\\n':'Финансовая сводка:\\n')+
+  (lang==='tg'?'Даромади умумӣ: ':'Общий доход: ')+money(ins)+'\\n'+
+  (lang==='tg'?'Хароҷоти умумӣ: ':'Общие расходы: ')+money(outs)+'\\n'+
+  (lang==='tg'?'Тавозуни умумӣ: ':'Общий баланс: ')+money(ins-outs)+'\\n'+
+  (lang==='tg'?'Даромади ҳафта: ':'Доход за неделю: ')+money(wi)+'\\n'+
+  (lang==='tg'?'Хароҷоти ҳафта: ':'Расход за неделю: ')+money(wo)+'\\n'+
+  (lang==='tg'?'Тавозуни ҳафта: ':'Баланс недели: ')+money(wi-wo)+'\\n'+
+  (top?(lang==='tg'?'Категорияи асосии хароҷот: ':'Главная категория расходов: ')+top[0]+' — '+money(top[1]):(lang==='tg'?'Дар ин ҳафта хароҷот сабт нашудааст.':'За эту неделю расходов нет.'));
+ }
+ if(/вазиф|кор|план|задач|todo|task/.test(s)){
+  return (lang==='tg'?'Вазифаҳои иҷронашуда: ':'Незавершённые задачи: ')+open.length+'\\n'+(open.slice(0,8).map((t,i)=>(i+1)+'. '+t.title+' — '+(t.date||'' )+(t.time?' '+t.time:'')).join('\\n')||(lang==='tg'?'Ҳама вазифаҳо иҷро шудаанд ё вазифа нест.':'Все задачи выполнены или задач пока нет.'));
+ }
+ if(/салом|привет|hello|савол|кӯмак|помощ/.test(s))return lang==='tg'?'Салом! Ман метавонам аз маълумоти сабтшуда ҳисобот созам, вазифаҳои кушодаро нишон диҳам ё барои беҳтар кардани буҷет ғоя пешниҳод кунам. Барои ҷавобҳои умумии озод бояд AI-и онлайн ба сервер пайваст шавад.':'Здравствуйте! Я могу составить отчёт по сохранённым данным, показать незавершённые задачи или предложить идеи для бюджета. Для свободных ответов нужен подключённый онлайн AI-сервер.';
+ return lang==='tg'?'Ман ҳоло дар ҳолати маҳаллӣ ҳастам ва модели пурраи зеҳни сунъӣ нестам. Метавонам маълумоти молиявӣ ва вазифаҳои сабтшударо ҷамъбаст кунам. Барои таҳлилҳои озод, саволро баъд аз пайваст кардани сервери AI пурс.':'Сейчас я работаю локально и не являюсь полноценной языковой моделью. Я могу анализировать сохранённые финансовые данные и задачи. Для свободных ответов подключите сервер AI.';
+}
+$('aiSend').addEventListener('click',async()=>{
+ const q=$('aiInput').value.trim();if(!q)return;
+ $('aiInput').value='';aiAppend('user',q);
+ if($('aiMode').value==='api'){
+  const endpoint=$('aiEndpoint').value.trim();
+  if(!endpoint){aiAppend('bot',lang==='tg'?'Аввал endpoint-и сервери AI-ро ворид кун. Калиди API-ро ба ин саҳифа нагузор.':'Сначала укажите endpoint AI-сервера. Не вставляйте API-ключ в эту страницу.');return}
+  try{
+   aiAppend('bot',lang==='tg'?'Дархост фиристода мешавад…':'Отправка запроса…');
+   const response=await fetch(endpoint,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({messages:[...aiChatHistory,{role:'user',content:q}],language:lang,context:{tasks:data.tasks,transactions:data.tx.map(({photo,...t})=>t)}})});
+   const result=await response.json();
+   const last=$('aiChat').lastElementChild;if(last)last.remove();
+   if(!response.ok)throw new Error(result.error||('HTTP '+response.status));
+   const answer=result.reply||result.message||result.output_text||result.choices?.[0]?.message?.content;
+   if(!answer)throw new Error('Server response has no reply field');
+   aiAppend('bot',String(answer));aiChatHistory.push({role:'user',content:q},{role:'assistant',content:String(answer)});
+  }catch(e){const last=$('aiChat').lastElementChild;if(last&&last.textContent.includes('…'))last.remove();aiAppend('bot',(lang==='tg'?'Пайвастшавӣ нашуд: ':'Не удалось подключиться: ')+e.message)}
+ }else{aiAppend('bot',aiLocalReply(q))}
+});
+$('aiInput').addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();$('aiSend').click()}});
+render();
+</script>
+</body></html>
